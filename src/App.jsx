@@ -1,12 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useGet } from "./hooks/useGet";
 import Search from "./components/Search";
 import Filter from "./components/Filter";
 import Flag from "./components/Flag";
 import LoadNext from "./components/LoadNext";
 import "./App.css";
-import { api_key } from "../api_key";
 
 function App() {
+  const [items, error, loaded] = useGet("all");
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("");
+  const [paginate, setPaginate] = useState(12);
+
   function search(items) {
     return items.filter(
       (item) =>
@@ -14,8 +19,6 @@ function App() {
         search_parameters.some((parameter) =>
           item[parameter].toString().toLowerCase().includes(query.toLowerCase())
         )
-
-      // item.name.toLowerCase().includes(query.toLowerCase())
     );
   }
 
@@ -23,37 +26,6 @@ function App() {
     setPaginate((prevState) => prevState + 12);
   }
 
-  const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState("");
-  const [paginate, setPaginate] = useState(12);
-  const [error, setError] = useState(null);
-  const [loaded, setLoaded] = useState(false);
-  const [items, setItems] = useState([]);
-  useEffect(() => {
-    // fetch data
-    const request_headers = new Headers();
-    request_headers.append("Authorization", `Bearer ${api_key}`);
-    request_headers.append("Content-Type", "application/json");
-
-    const request_options = {
-      method: "GET",
-      headers: request_headers,
-    };
-
-    fetch("https://countryapi.io/api/all", request_options)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setLoaded(true);
-          setItems(result);
-          console.log(result);
-        },
-        (error) => {
-          setLoaded(true);
-          setError(error);
-        }
-      );
-  }, []);
   const data = Object.values(items);
   const search_parameters = Object.keys(Object.assign({}, ...data));
   const filter_items = [...new Set(data.map((item) => item.region))];
