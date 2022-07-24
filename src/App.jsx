@@ -31,28 +31,28 @@ function App() {
   const filter_items = [...new Set(data.map((item) => item.region))];
   console.log(`search params: ${search_parameters}`);
 
-  if (error) {
-    return <>{error.message}</>;
-  } else if (!loaded) {
-    return <>loading...</>;
-  } else {
-    return (
-      <div className="wrapper">
-        <Search setQuery={setQuery} />
-        <Filter filter_items={filter_items} setFilter={setFilter} />
-        {query}
-        <section className="card-grid">
-          {search(data)
-            .sort()
-            .slice(0, paginate)
-            .map((item) => (
-              <Flag key={item.alpha3Code} item={item} />
-            ))}
-        </section>
-        <LoadNext load_next={load_next} />
-      </div>
-    );
+  if (!loaded) {
+    return <h4>loading...</h4>;
   }
+  if (error) {
+    <h4>{error.message}</h4>;
+  }
+  return (
+    <div className="wrapper">
+      <Search setQuery={setQuery} />
+      <Filter filter_items={filter_items} setFilter={setFilter} />
+      {query}
+      <section className="card-grid">
+        {search(data)
+          .sort()
+          .slice(0, paginate)
+          .map((item) => (
+            <Flag key={item.alpha3Code} item={item} />
+          ))}
+      </section>
+      <LoadNext load_next={load_next} />
+    </div>
+  );
 }
 
 export default App;

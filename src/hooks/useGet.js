@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-const base_url = "https://countryapi.io/api/";
-import { api_key } from "../../api_key";
-const request_headers = new Headers();
-request_headers.append("Authorization", `Bearer ${api_key}`);
-request_headers.append("Content-Type", "application/json");
+import { API } from "../API";
 
-const request_options = {
-  method: "GET",
-  headers: request_headers,
-};
+// const request_headers = new Headers();
+// request_headers.append("Authorization", `Bearer ${api_key}`);
+// request_headers.append("Content-Type", "application/json");
+// const request_options = {
+//   headers: request_headers,
+// };
 
 export const useGet = (endpoint) => {
   const [items, setItems] = useState([]);
@@ -17,8 +15,7 @@ export const useGet = (endpoint) => {
 
   const getData = async (endpoint) => {
     try {
-      const res = await fetch(base_url + endpoint, request_options);
-      const data = await res.json();
+      const { data } = await API.get(endpoint);
       setItems(data);
       setLoaded(true);
     } catch (error) {
