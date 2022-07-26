@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGet } from "./hooks/useGet";
 import Search from "./components/Search";
 import Filter from "./components/Filter";
-import Flag from "./components/Flag";
+import Country from "./components/Country";
 import LoadNext from "./components/LoadNext";
 import "./App.css";
 
@@ -47,7 +47,7 @@ function App() {
           .sort()
           .slice(0, paginate)
           .map((item) => (
-            <Flag key={item.alpha3Code} item={item} />
+            <Country key={item.alpha3Code} item={item} />
           ))}
       </section>
       <LoadNext load_next={load_next} />

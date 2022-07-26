@@ -1,6 +1,12 @@
-const Flag = ({ item }) => {
+import { openModal } from "../utils/launchModal";
+
+const Country = ({ item }) => {
+  const handleDetails = () => {
+    console.log(item);
+    openModal(item);
+  };
   return (
-    <article className="card">
+    <article className="card" onClick={handleDetails}>
       <div className="card-image">
         <img src={item.flag.large} alt={item.name} />
       </div>
@@ -18,11 +24,18 @@ const Flag = ({ item }) => {
         <p>
           Capital: <span>{item.capital}</span>
         </p>
-        <p>
-          Languages: <span>{Object.values(item.languages).join(", ")}</span>
-        </p>
+
+        {Object.values(item.languages).length > 1 ? (
+          <p>
+            Languages: <span>{Object.values(item.languages).join(", ")}</span>
+          </p>
+        ) : (
+          <p>
+            Language: <span>{Object.values(item.languages)}</span>
+          </p>
+        )}
       </div>
     </article>
   );
 };
-export default Flag;
+export default Country;
