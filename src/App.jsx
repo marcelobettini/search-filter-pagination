@@ -57,7 +57,6 @@ function App() {
   const data = Object.values(items);
   const search_parameters = Object.keys(Object.assign({}, ...data));
   const filter_items = [...new Set(data.map((item) => item.region))];
-  console.log(`search params: ${search_parameters}`);
 
   if (error) {
     return <>{error.message}</>;
